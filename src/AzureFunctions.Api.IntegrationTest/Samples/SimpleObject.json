@@ -1,0 +1,22 @@
+  {
+    "AddressID": 1,
+    "AddressLine1": "1970 Napa Ct.",
+    "AddressLine2": null,
+    "City": "Bothell",
+    "StateProvinceID": 79,
+    "PostalCode": "98011",
+    "SpatialLocation": {
+      "STSrid": {
+        "Value": 4326
+      },
+      "Lat": {
+        "Value": 47.7869921906598
+      },
+      "Long": {
+        "Value": -122.164644615406
+      }
+    },
+    "rowguid": "9aadcb0d-36cf-483f-84d8-585c2d4ec6e9",
+    "ModifiedDate": "2007-12-04T00:00:00"
+  }
+  

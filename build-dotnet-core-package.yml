@@ -1,0 +1,109 @@
+parameters:
+  #This is used as the pipeline job name. I.e. Build_Pipeline_Azure_Infrastructure_Package
+  jobTitle: ''
+  #This is the project name. If this is AzureFunctions.Api, the csproj file is expected  to be found in \src\AzureFunctions.Api\AzureFunctions.Api.csproj.
+  project_title: ''
+
+jobs:
+- job: ${{ parameters.jobTitle }}
+  pool:
+    vmImage: 'windows-latest'
+  condition: succeeded()
+  continueOnError: false
+  workspace:
+    clean: all
+
+  variables:
+    build_configuration: 'Release'
+
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Use .NET SDK'
+    inputs:
+      useGlobalJson: false
+
+  # Perform .Net Core Restore
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: restore
+      feedsToUse: 'select'
+      vstsFeed: 'd9458e13-3c2a-4e0e-8db0-388d0bbb7295'
+      projects: '**/*.csproj'
+
+  # Perform .Net Core Build
+  - task: DotNetCoreCLI@2
+    displayName: BuildDotNetProject
+    inputs:
+      projects: '**/*.csproj'
+      arguments: '--configuration $(build_configuration)'
+  
+  # Perform .Net Core Test
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: 'src/${{ parameters.project_title }}.Tests/*.csproj'
+      publishTestResults: true
+      arguments: '--configuration $(build_configuration) --collect "code coverage"'
+
+  # Perform .Net Core Publish
+  - task: DotNetCoreCLI@2
+    displayName: DotNetCorePublish
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: 'src/${{ parameters.project_title }}/${{ parameters.project_title }}.csproj'
+      arguments: '--configuration $(build_configuration) --output $(System.DefaultWorkingDirectory)/FunctionPublish'
+      zipAfterPublish: false
+    
+  - task: CopyFiles@2
+    displayName: Copy Function publish files
+    inputs: 
+      Contents: "**/*"
+      SourceFolder: '$(System.DefaultWorkingDirectory)/FunctionPublish/${{ parameters.project_title }}'
+      TargetFolder: '$(System.DefaultWorkingDirectory)/Deployment/FunctionPublish'
+      flattenFolders: false
+
+  # Copy Build Output
+  - task: CopyFiles@2
+    displayName: Copy to artifact directory 
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)/Deployment'
+      Contents: '**/*'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      CleanTargetFolder: true
+
+  # Attach Build Output
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: WorkingDirectory
+  
+  ##### Zip content and publish to artifactstaging #####
+  
+  # ZIP files
+  - task: ArchiveFiles@2
+    displayName: ZIP deployment files
+    inputs:        
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Deployment'
+      archiveFile: '$(System.DefaultWorkingDirectory)/$(Build.DefinitionName).$(Build.BuildNumber).zip'
+      includeRootFolder: false
+
+  # Copy Build Output
+  - task: CopyFiles@2
+    displayName: Copy to artifact directory 
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)'
+      Contents: '*.zip'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      CleanTargetFolder: true
+
+  # Attach Build Output
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: Drop
+

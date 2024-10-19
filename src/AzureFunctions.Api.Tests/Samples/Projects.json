@@ -1,0 +1,14 @@
+﻿[
+  {
+    "PartitionKey": "project",
+    "RowKey": "A01",
+    "Name": "Skagen kroen",
+    "Title": "Skagens perle"
+  },
+  {
+    "PartitionKey": "project",
+    "RowKey": "A02",
+    "Name": "Operaen",
+    "Title": "Operahuset"
+  }
+]

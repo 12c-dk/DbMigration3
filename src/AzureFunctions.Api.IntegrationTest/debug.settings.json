@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "UsingAzurite": true, 
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "ServiceUsername": "Dummyuser-Test"
+  }
+}

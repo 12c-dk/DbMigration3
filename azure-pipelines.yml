@@ -1,0 +1,90 @@
+name: $(Year:yyyy).$(Month).$(DayOfMonth).$(rev:r)
+   
+trigger:
+  - main
+  - feature/*
+  - bug/*
+
+pool:
+  vmImage: windows-latest
+  demands: 
+  - msbuild
+  - visualstudio
+
+variables:
+# - group: 'test-variable-group'
+- name: project_title
+  value: 'AzureFunctions.Api'
+  
+stages:
+# - stage: TestVariableGroup
+#   displayName: TestVariableGroup
+#   jobs:
+#   - template: test-variable-group.yml
+#     parameters:
+#       variableGroup: 'test-variable-group'
+#       variableNames: '"$(ServiceUserName)", "$(ServicePassword)"'
+
+
+- stage: Build
+  displayName: Build
+  jobs:
+  - template: build-dotnet-core-package.yml
+    parameters:
+      jobTitle: 'Build_Functions_Sites_API'
+      project_title: $(project_title)
+
+
+
+  # jobs:
+  # - job: BuildJob
+  #   steps:
+  #   - task: UseDotNet@2
+  #     displayName: 'Install .NET Core SDK 7.x'
+  #     inputs:
+  #       version: 7.x
+
+  #   - task: PowerShell@2
+  #     displayName: 'Powershell Build'
+  #     continueOnError: true
+  #     inputs:
+  #       targetType: filePath
+  #       filePath: '$(Build.SourcesDirectory)\Build\Build.ps1'
+  #       arguments: ''
+  #       workingDirectory: $(Build.SourcesDirectory)\Build\
+
+  #   - task: CopyFiles@2
+  #     displayName: 'Copy Deployment'
+  #     inputs:
+  #       SourceFolder: '$(Build.SourcesDirectory)\Deployment'
+  #       Contents: '**\*'
+  #       TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  #       CleanTargetFolder: true
+  #       flattenFolders: false
+  #     condition: and(succeeded(), succeeded())
+
+  #   - task: PublishBuildArtifacts@1
+  #     displayName: 'Publish Artifact: drop'
+  #     inputs:
+  #       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+
+  #   - task: PowerShell@2
+  #     displayName: 'List files'
+  #     inputs: 
+  #       targetType: inline
+  #       script: |
+  #         cd $(Build.ArtifactStagingDirectory)
+  #         ls -R
+
+  
+
+# - stage: Deploy_Dev 
+#   displayName: Deploy_Dev
+#   condition: and(succeeded(), or( eq(variables['Build.SourceBranch'], 'refs/heads/main'), contains(variables['Build.SourceBranch'], 'refs/heads/feature') ))
+#   jobs:  
+#   - template: deploy-azure.yml
+#     parameters:
+#       environment: "Dev"
+#       targetJson: "Dev.json"
+#       serviceConnection: "TestProjectsServiceConnection"
+
