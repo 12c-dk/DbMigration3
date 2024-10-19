@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Adapter\**" />
+    <EmbeddedResource Remove="Adapter\**" />
+    <None Remove="Adapter\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DbMigration.Common\DbMigration.Common.csproj" />
+    <ProjectReference Include="..\DbMigration.Domain\DbMigration.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

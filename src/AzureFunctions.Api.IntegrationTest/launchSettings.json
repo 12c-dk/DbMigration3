@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Azurite Debugging": {
+      "commandName": "Executable",
+      "launchBrowser": false,
+      "executablePath": "${workspaceRoot}/node_modules/azure-storage-azurite/bin/azurite.js",
+      "args": [
+        "-s",
+        "-l",
+        "./azurite",
+        "--silent",
+        "--skipApiVersionCheck --tablePort 10102 --blobPort 10100 --queuePort 10101"
+      ],
+      "cwd": "${workspaceRoot}",
+      "stopAtEntry": false
+    }
+  }
+}
+

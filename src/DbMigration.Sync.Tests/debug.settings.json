@@ -1,0 +1,5 @@
+{
+  "SourceConnectionString": "Server=localhost,6000;Database=SourceDb;User Id=sa;Password=quoosugTh5;TrustServerCertificate=True;MultipleActiveResultSets=True",
+  "TargetConnectionString": "Server=localhost,6000;Database=SourceDb;User Id=sa;Password=quoosugTh5;TrustServerCertificate=True;MultipleActiveResultSets=True"
+
+}
