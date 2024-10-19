@@ -43,7 +43,7 @@ jobs:
     displayName: Test
     inputs:
       command: test
-      projects: 'src/${{ parameters.project_title }}.Tests/*.csproj'
+      projects: '**/*.Tests/*.csproj'
       publishTestResults: true
       arguments: '--configuration $(build_configuration) --collect "code coverage"'
 
@@ -106,4 +106,3 @@ jobs:
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: Drop
-
