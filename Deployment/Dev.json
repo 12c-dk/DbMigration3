@@ -1,0 +1,21 @@
+﻿{
+      "SubscriptionName": "Filip MSDN",
+      "SubscriptionId": "d3e92861-7740-4f9f-8cd2-bdfe8dd4bde3",
+      "TenantId":"6df08080-a31a-4efa-8c05-2373fc4515fc",
+      "Location": "West Europe",
+      "ResourceGroupName": "DbMigration",
+
+      "EnvironmentName":"Dev",
+      "ServiceConnectionObjectId":"0ff7f8c4-df2f-4c9b-aeb4-751a92f8c14b",
+      "Resource":
+      {
+        
+        "StorageAccountName": "dbmigratedev",
+        "KeyVaultName":"DbMigrate-Dev-KV",
+        "KeyVaultSecretNames":["ServiceUsername","ServicePassword"],
+        "FunctionAppName":"DbMigrate-Dev-FA",
+        "HostingPlanName":"DbMigrate-Dev-SP",
+        "AppServicePlanName":"DbMigrate-Dev-ASP",
+        "applicationInsightsName":"DbMigrate-Dev-AI"
+      }
+  }
