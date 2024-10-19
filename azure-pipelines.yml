@@ -34,7 +34,36 @@ stages:
       jobTitle: 'Build_Functions_Sites_API'
       project_title: $(project_title)
 
+  - job: BuildAllProjects
+    displayName: Build All Projects
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET SDK'
+      inputs:
+        useGlobalJson: false
 
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: restore
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: build
+        projects: '**/*.csproj'
+        arguments: '--configuration Release'
+
+    - task: DotNetCoreCLI@2
+      displayName: Test
+      inputs:
+        command: test
+        projects: '**/*.Tests/*.csproj'
+        arguments: '--configuration Release --collect "code coverage"'
+        publishTestResults: true
 
   # jobs:
   # - job: BuildJob
@@ -87,4 +116,3 @@ stages:
 #       environment: "Dev"
 #       targetJson: "Dev.json"
 #       serviceConnection: "TestProjectsServiceConnection"
-
