@@ -59,7 +59,7 @@ jobs:
         echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
         source ~/.bashrc
 
-    - name: Wait for SQL Server to be ready
+    - name: Wait for SQL Server to be ready from host
       run: |
         for i in {1..10}; do
           echo "Attempt $i: Checking if SQL Server is ready..."
@@ -75,7 +75,7 @@ jobs:
           fi
         done
 
-    - name: Wait for SQL Server to be ready
+    - name: Wait for SQL Server to be ready from container
       run: |
         for i in {1..10}; do
           if docker exec devcontainer_database_1 /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'quoosugTh5' -Q "SELECT 1"; then
