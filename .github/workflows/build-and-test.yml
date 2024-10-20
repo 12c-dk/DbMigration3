@@ -1,10 +1,12 @@
 name: Build and Test with DevContainer
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
       - 'feature/*'
+      - update-github-workflow
   pull_request:
     branches:
       - main
@@ -64,12 +66,12 @@ jobs:
         done
 
     - name: Restore dependencies
-      run: dotnet restore src/Adapter.Sql.Tests/Adapter.Sql.Tests.csproj
+      run: dotnet restore src/AllProjects.sln
 
     - name: Build the solution
-      run: dotnet build src/Adapter.Sql.Tests/Adapter.Sql.Tests.csproj --no-restore --configuration Release
+      run: dotnet build src/AllProjects.sln --no-restore --configuration Release
 
     - name: Run Tests
       env:
         ConnectionStrings__DefaultConnection: "Server=0.0.0.0,1433;Database=TestDb;User Id=sa;Password=${{ secrets.SA_PASSWORD }};"
-      run: dotnet test src/Adapter.Sql.Tests/Adapter.Sql.Tests.csproj --no-restore --configuration Release
+      run: dotnet test src/AllProjects.sln --no-restore --configuration Release

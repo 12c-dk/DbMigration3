@@ -26,7 +26,7 @@ namespace AzureFunctions.Api.IntegrationTest
         public DapperIntTests(ITestOutputHelper output)
         {
             _output = output;
-            var conStr = $"Server=localhost,6000;Database=AdventureWorks2019;User Id={_user};Password={_password};TrustServerCertificate=True;Connect Timeout=2";
+            var conStr = $"Server=localhost,6000;Database=SourceDb;User Id={_user};Password={_password};TrustServerCertificate=True;Connect Timeout=2";
             _sqlConnection = new SqlConnectionWrapper(conStr);
         }
 
@@ -34,10 +34,10 @@ namespace AzureFunctions.Api.IntegrationTest
         public async Task ConnectionTest()
         {
 
-            var result = await _sqlConnection.QueryAsync("select top 10 * from Person.Address");
+            var result = await _sqlConnection.QueryAsync("select top 10 * from SourceTable");
 
             List<dynamic> outputList = result.ToList();
-            Assert.True(outputList.Count == 10);
+            Assert.True(outputList.Count == 3);
 
             //Save output for testing
             //var test = JsonSerializer.Serialize(outputList, _jsonOptions);
