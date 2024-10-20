@@ -48,7 +48,7 @@ namespace AzureFunctions.Api.IntegrationTest
         [Fact]
         public void JsonToDictionaryTest()
         {
-            string loadedFromFile = File.ReadAllText("Samples\\PersonAddress.json");
+            string loadedFromFile = File.ReadAllText("Samples/PersonAddress.json");
             IEnumerable<dynamic> loadedDynamic = JsonSerializer.Deserialize<IEnumerable<dynamic>>(loadedFromFile);
             Assert.NotNull(loadedDynamic);
 
@@ -72,7 +72,7 @@ namespace AzureFunctions.Api.IntegrationTest
             var database = dbRepo.EnsureDatabase("PopulateDbModelFromJson");
             DbTableSchema tableSchema = database.EnsureDbTableSchema("TestTable");
 
-            string loadedFromFile = File.ReadAllText("Samples\\PersonAddress.json");
+            string loadedFromFile = File.ReadAllText("Samples/PersonAddress.json");
             IEnumerable<dynamic> loadedDynamic = JsonSerializer.Deserialize<IEnumerable<dynamic>>(loadedFromFile);
             Assert.NotNull(loadedDynamic);
 
@@ -105,7 +105,7 @@ namespace AzureFunctions.Api.IntegrationTest
         [Fact]
         public void SimpleConvertTest()
         {
-            string loadedFromFile = File.ReadAllText("Samples\\SimpleJson.json");
+            string loadedFromFile = File.ReadAllText("Samples/SimpleJson.json");
             IEnumerable<dynamic> loadedDynamic = JsonSerializer.Deserialize<IEnumerable<dynamic>>(loadedFromFile);
             dynamic loadedDynamic2 = JsonSerializer.Deserialize<dynamic>(loadedFromFile);
             Assert.NotNull(loadedDynamic);
@@ -154,7 +154,7 @@ namespace AzureFunctions.Api.IntegrationTest
         [Fact]
         public void JsonToHashtableTest()
         {
-            string loadedFromFile = File.ReadAllText("Samples\\SimpleObject.json");
+            string loadedFromFile = File.ReadAllText("Samples/SimpleObject.json");
 
             var options = new JsonSerializerOptions();
             options.Converters.Add(new JsonHashtableConverter());
