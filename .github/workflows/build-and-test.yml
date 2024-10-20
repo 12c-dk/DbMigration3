@@ -49,6 +49,7 @@ jobs:
             break;
           else
             echo "Waiting for SQL Server... retrying in 10 seconds";
+            docker ps
             sleep 10;
           fi
         done
