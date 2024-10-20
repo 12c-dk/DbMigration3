@@ -16,14 +16,14 @@ jobs:
 
     services:
       sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
+        image: mcr.microsoft.com/mssql/server:2019-latest
         env:
           SA_PASSWORD: quoosugTh5
           ACCEPT_EULA: Y
         ports:
           - 1433:1433
         options: >
-          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'quoosugTh5' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=5 
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'quoosugTh5' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
     - name: Checkout repository
@@ -41,7 +41,6 @@ jobs:
       with:
         dotnet-version: '6.x'
 
-    # Implement retry mechanism using bash to wait for SQL Server to be ready
     - name: Wait for SQL Server to be ready
       run: |
         for i in {1..10}; do
@@ -62,5 +61,5 @@ jobs:
 
     - name: Run Tests
       env:
-        ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=TestDb;User Id=sa;Password=quoosugTh5;"
+        ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=TestDb;User Id=sa;Password=${{ secrets.SA_PASSWORD }};"
       run: dotnet test src/Adapter.Sql.Tests/Adapter.Sql.Tests.csproj --no-restore --configuration Release
