@@ -60,7 +60,7 @@ namespace AzureFunctions.Api.Tests
 
             var query = new Dictionary<String, StringValues>();
             var header = new Dictionary<String, StringValues>();
-            string body = File.ReadAllText("Samples\\ProjectGetRequest.json");
+            string body = File.ReadAllText("Samples/ProjectGetRequest.json");
 
             var req = HttpMock.HttpRequestSetup(header, query, body);
 
