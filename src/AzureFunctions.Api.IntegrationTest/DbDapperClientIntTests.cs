@@ -16,7 +16,7 @@ namespace AzureFunctions.Api.IntegrationTest
         public DbDapperClientIntTests(ITestOutputHelper output)
         {
             _output = output;
-            var conStr = $"Server=localhost,6000;Database=AdventureWorks2019;User Id={_user};Password={_password};TrustServerCertificate=True;Connect Timeout=2";
+            var conStr = $"Server=localhost,6000;Database=SourceDb;User Id={_user};Password={_password};TrustServerCertificate=True;Connect Timeout=2";
             _sqlConnection = new SqlConnectionWrapper(conStr);
             _dbDapperClientLogger = new MockLogger<DbDapperClient>(output);
 
@@ -60,7 +60,7 @@ WHERE  TABLE_NAME = 'TestTableTwoKeys' AND TABLE_SCHEMA = 'dbo')
 
             DbDapperClient dbDapperClient = new DbDapperClient(_sqlConnection, db, _dbDapperClientLogger);
             var tables = await dbDapperClient.GetTables();
-            Assert.True(tables.Count > 10);
+            Assert.True(tables.Count > 3);
 
             foreach (string table in tables)
             {
@@ -75,9 +75,9 @@ WHERE  TABLE_NAME = 'TestTableTwoKeys' AND TABLE_SCHEMA = 'dbo')
             var db = dbRepo.EnsureDatabase("GetDbSchema");
             DbDapperClient dapperHelper = new DbDapperClient(_sqlConnection, db, _dbDapperClientLogger);
 
-            var schema = await dapperHelper.GetTableSchema("Person.Address");
+            var schema = await dapperHelper.GetTableSchema("TestTableTwoKeys");
 
-            Assert.True(schema.FieldsReadOnly.Count > 5);
+            Assert.True(schema.FieldsReadOnly.Count > 3);
         }
 
         [Fact(Skip = "Used for exploratory testing")]
@@ -110,18 +110,18 @@ WHERE  TABLE_NAME = 'TestTableTwoKeys' AND TABLE_SCHEMA = 'dbo')
             //This test loads data to a DbModel
             DbDatabaseRepository dbRepo = new DbDatabaseRepository();
             DbDatabase database = dbRepo.EnsureDatabase("GetDataTestDb");
-            var tableSchema = database.EnsureDbTableSchema("Person.Address");
+            var tableSchema = database.EnsureDbTableSchema("SourceTable");
 
 
             DbDapperClient dapperClient = new DbDapperClient(_sqlConnection, database, _dbDapperClientLogger);
 
             DbData dbData = await dapperClient.GetTableData(tableSchema,
                 top: 1000,
-                selectFields: new List<string>() { "AddressID", "AddressLine1" },
-                queryString: "AddressID < 20");
-            Assert.True(dbData.Count > 5);
+                selectFields: new List<string>() { "Name", "Age" },
+                queryString: "Age > 190");
+            Assert.True(dbData.Count == 2);
 
-            _output.WriteLine(dbData.ToString(columns: new List<string>() { "AddressID", "AddressLine1" }, top: 100));
+            _output.WriteLine(dbData.ToString(columns: new List<string>() { "Name", "Age" }, top: 100));
 
         }
 
