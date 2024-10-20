@@ -50,14 +50,16 @@ jobs:
       with:
         dotnet-version: '6.x'
 
-    - name: Wait for SQL Server to be ready
+        - name: Wait for SQL Server to be ready
       run: |
         for i in {1..10}; do
-          if docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S 0.0.0.0:6000 -U SA -P 'quoosugTh5' -Q "SELECT 1"; then
+          output=$(docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S 0.0.0.0:6000 -U SA -P 'quoosugTh5' -Q "SELECT 1" 2>&1)
+          if echo "$output" | grep -q "1 rows affected"; then
             echo "SQL Server is ready!";
             break;
           else
             echo "Waiting for SQL Server... retrying in 10 seconds";
+            echo "Output from sqlcmd: $output";
             docker ps
             sleep 10;
           fi
