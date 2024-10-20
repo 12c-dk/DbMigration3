@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - 'feature/*'
+      - update-github-workflow
   pull_request:
     branches:
       - main
