@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - 'feature/*'
   pull_request:
     branches:
       - main
+      - 'feature/*'
 
 jobs:
   build-and-test:
@@ -16,16 +18,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Step to set up Docker, in case the container needs building
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    # Step to build the DevContainer image
     - name: Build DevContainer
       run: |
         docker build -t devcontainer .devcontainer
 
-    # Step to run .NET tests from the host using the built environment
     - name: Install .NET SDK
       uses: actions/setup-dotnet@v3
       with:
