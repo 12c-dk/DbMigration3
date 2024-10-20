@@ -1,31 +1,29 @@
-name: Build and Test
+name: Build and Test with DevContainer
 
 on:
   push:
     branches:
       - main
+      - feature/*
   pull_request:
     branches:
       - main
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '6.0.x'
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
-    - name: Restore dependencies
-      run: dotnet restore src/AllProjects.sln
+    - name: Build DevContainer
+      run: |
+        docker build -t devcontainer .devcontainer
 
-    - name: Build all projects
-      run: dotnet build --no-restore src/AllProjects.sln
-
-    - name: Run tests
-      run: dotnet test --no-build --verbosity normal src/AllProjects.sln
+    - name: Run Tests in DevContainer
+      run: |
+        docker run --rm devcontainer /bin/sh -c "npm install && npm test"
