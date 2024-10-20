@@ -133,5 +133,12 @@ Setup simple synchronization of two tables or  table - SPList, using DbMigration
     Using delta endpoint(s)
     must handle folder structure - version 2
 
+## GitHub Actions Pipeline
 
+### Purpose
 
+The GitHub Actions pipeline is configured to build all projects and run all tests from the .NET test projects in this repository. This ensures that the code is always in a buildable state and that all tests pass before changes are merged into the main branch.
+
+### Triggering the Pipeline
+
+The pipeline is triggered automatically on push and pull request events to the `main` branch. You can also manually trigger the pipeline by navigating to the "Actions" tab in the GitHub repository and selecting the "build-and-test" workflow.

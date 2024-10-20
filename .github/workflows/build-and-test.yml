@@ -1,0 +1,31 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore src/AllProjects.sln
+
+    - name: Build all projects
+      run: dotnet build --no-restore src/AllProjects.sln
+
+    - name: Run tests
+      run: dotnet test --no-build --verbosity normal src/AllProjects.sln
