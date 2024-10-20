@@ -21,6 +21,11 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
+    - name: Install containerd.io
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y containerd.io
+
     - name: Set up Docker
       run: |
         sudo apt-get update
