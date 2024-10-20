@@ -50,7 +50,7 @@ jobs:
       with:
         dotnet-version: '6.x'
 
-        - name: Wait for SQL Server to be ready
+    - name: Wait for SQL Server to be ready
       run: |
         for i in {1..10}; do
           output=$(docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S 0.0.0.0:6000 -U SA -P 'quoosugTh5' -Q "SELECT 1" 2>&1)
