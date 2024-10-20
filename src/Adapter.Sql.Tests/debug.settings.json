@@ -1,5 +1,5 @@
 {
-  "SourceConnectionString": "Server=localhost,6000;Database=SourceDb;User Id=sa;Password=quoosugTh5;TrustServerCertificate=True;MultipleActiveResultSets=True;Connect Timeout=1",
-  "TargetConnectionString": "Server=localhost,6000;Database=SourceDb;User Id=sa;Password=quoosugTh5;TrustServerCertificate=True;MultipleActiveResultSets=True;Connect Timeout=1"
+  "SourceConnectionString": "Server=localhost,1433;Database=SourceDb;User Id=sa;Password=quoosugTh5;TrustServerCertificate=True;MultipleActiveResultSets=True;Connect Timeout=1",
+  "TargetConnectionString": "Server=localhost,1433;Database=SourceDb;User Id=sa;Password=quoosugTh5;TrustServerCertificate=True;MultipleActiveResultSets=True;Connect Timeout=1"
 
 }
