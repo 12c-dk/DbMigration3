@@ -1,6 +1,7 @@
 name: Build and Test with DevContainer
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
