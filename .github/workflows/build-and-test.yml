@@ -21,7 +21,7 @@ jobs:
           SA_PASSWORD: "quoosugTh5"
           ACCEPT_EULA: "Y"
         ports:
-          - 1433:1433
+          - 6001:1433
         options: > 
           --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'quoosugTh5' -Q 'SELECT 1'" 
           --health-interval 10s 
@@ -65,5 +65,5 @@ jobs:
 
     - name: Run Tests
       env:
-        ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=TestDb;User Id=sa;Password=quoosugTh5;"
+        ConnectionStrings__DefaultConnection: "Server=localhost,6001;Database=TestDb;User Id=sa;Password=quoosugTh5;"
       run: dotnet test src/Adapter.Sql.Tests/Adapter.Sql.Tests.csproj --no-restore --configuration Release
