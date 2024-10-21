@@ -11,7 +11,7 @@ namespace AzureFunctions.Api.Tests.Mocks
 
         public TestDataModel()
         {
-            string projects = File.ReadAllText("Samples\\Projects.json");
+            string projects = File.ReadAllText("Samples/Projects.json");
             Projects = JsonConvert.DeserializeObject<List<Project>>(projects);
         }
 
